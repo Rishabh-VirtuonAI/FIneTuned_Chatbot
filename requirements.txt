@@ -7,19 +7,20 @@ typing-extensions==4.11.0
 mysql-connector-python==8.3.0
 loguru==0.7.2
 
-langchain==0.1.20
-langchain-community==0.0.35
-langchain-core==0.1.47
-langchain-huggingface==0.0.6
 
-faiss-cpu==1.8.0
-transformers==4.41.2
-torch>=2.0.0
+langchain==0.3.25
+langchain-community==0.3.24
+langchain-core==0.3.63
+langchain-huggingface==0.2.0
+langchain-text-splitters==0.3.8
+
+faiss-cpu==1.11.0
+transformers==4.51.3
+torch>=2.7.0
 
 # Optional utility dependencies if not already installed
-tqdm==4.66.4
-requests==2.32.2
-sentence-transformers==2.7.0
-
+tqdm==4.67.1
+requests==2.32.3
+sentence-transformers==4.1.0
 # Required if you use CORS middleware
 python-multipart==0.0.9
