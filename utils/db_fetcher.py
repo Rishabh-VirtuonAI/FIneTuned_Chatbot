@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 DB_CONFIG = {
     "host": "localhost",
     "user": "root",
-    "password": "1234",
+    "password": "Linod+/+Mooxy/2021",
     "database": "chatbot_db"
 }
 
