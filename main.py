@@ -20,7 +20,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 
 
-app = FastAPI()
+app = FastAPI(root_path="/chatbot_llm")
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 # CORS Middleware
