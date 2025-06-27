@@ -1,6 +1,7 @@
-**Ek SIM mein 6 pin out hote hain**
+## Ek SIM mein 6 pin out hote hain
 
-## Pin 1 (VCC): 
+### Pin 1 (VCC)
+
 * Is pin par 1.8 volt se 3.0 volt hona chahiye, tabhi SIM card properly work karega.
 * Agar iss pin par voltage nahi aata, to SIM card work nahi karega aur "Insert SIM" ka problem create hoga.
 
@@ -12,80 +13,81 @@
 * Agar line proper hai (na short hai, na open hai, na leakage hai), diode value bilkul theek hai, phir bhi voltage nahi aa raha, to power IC kharab ho sakti hai, kyunki voltage power IC hi banati hai.
 * Agar power IC change karne ke baad bhi voltage nahi aata, to SIM card tray me laga interrupt switch ki problem ho sakti hai.
 
-### Interrupt Switch ki Problem:
+### Pin 2 (RESET signal)
 
-* Jab SIM card tray phone me insert ki jati hai, to SIM card jack me peeche ya side me ek switch hota hai jo tray ko andar dhakne par peeche jhuk jaata hai.
-* Yeh switch SIM card detect ya SIM card interrupt line se juda hota hai.
-* Is line me 100k ohm resistor ke dwara 1.8 volt ko pull-up kiya jata hai.
-* Jab switch peeche jhukta hai, to wo ground se connect hota hai aur hatne par 1.8 volt pull-up voltage aage badhne lagta hai.
-* Yeh voltage CPU ke SIM card detect line me jata hai.
-* CPU jab is pin ko high feel karta hai, to interrupt trigger hota hai, aur CPU power IC ko command deta hai ki SIM card ke voltage ko activate karo.
-* Agar SIM card tray ka switch atak gaya ya interrupt signal generate nahi hua, to CPU power IC ko command nahi karega, jisse power IC voltage generate nahi karegi, aur SIM card ko voltage nahi milega, jisse "Insert SIM" ka problem create hoga.
+* Yeh CPU se connected hoti hai. Agar yeh line CPU se disconnect ho jaye, to "Insert SIM" problem hota hai.
 
-## Pin 2 (RESET signal):
-* Yeh CPU se connected hoti hai.
-* Agar yeh line CPU se disconnect ho jaye, to "Insert SIM" problem hota hai.
+### Pin 3 (CLOCK signal)
 
-## Pin 3 (CLOCK signal):
-* Yeh bhi CPU se connected hoti hai.
-* Agar yeh line disconnect ho, to "Insert SIM" problem hota hai.
+* Yeh bhi CPU se connected hoti hai. Agar yeh line disconnect ho, to "Insert SIM" problem hota hai.
 
-## Pin 4 (GROUND):
+### Pin 4 (GROUND)
+
 * Agar yeh pin ground se disconnect ho jaye, to bhi "Insert SIM" problem hota hai.
 
-## Pin 5 (VPP):
-* Yeh adhiktar mobile phones me NC (Not Connected) hota hai, matlab iska use nahi hota.
-* Lekin naye phones (thode mehange phones) me NFC device use hota hai, jisme yeh pin NFC IC se connected hota hai.
+### Pin 5 (VPP)
+
+* Yeh adhiktar mobile phones me NC (Not Connected) hota hai, matlab iska use nahi hota. Lekin naye phones (thode mehange phones) me NFC device use hota hai, jisme yeh pin NFC IC se connected hota hai.
 * SIM ko milne wala VCC voltage power IC se directly nahi, balki NFC IC ke dwara diya jata hai.
-* VPP pin SIM card insert hone ke baad NFC IC ko enable signal deta hai, jisse NFC IC SIM card ka voltage release karti hai.
-* Agar NFC IC kharab ho jaye, to SIM card ko VCC voltage nahi milega aur "Insert SIM" problem create hoga.
 
-## Pin 6 (DATA/IO line):
-* Is pin se CPU SIM card se data read aur write karta hai.
-* Agar yeh pin open, short, ya leakage ho jaye, to "Insert SIM" problem create hota hai.
+### Pin 6 (DATA/IO line)
 
----
+* Is pin se CPU SIM card se data read aur write karta hai. Agar yeh pin open, short, ya leakage ho jaye, to "Insert SIM" problem create hota hai.
 
-**"Agar phone me 'Insert SIM' ka problem aaye to"**
 
-### Sabse pehle:
+## Agar phone me "Insert SIM" ka problem aaye
 
-* SIM card jack ki har pin par multimeter ko diode mode me set karke diode value check karni chahiye.
+### Sabse pehle SIM card jack ki har pin par multimeter ko diode mode me set karke diode value check karni chahiye.
+
 * VCC, RESET, CLOCK, DATA pins ki diode value 300 se 850 ke beech honi chahiye.
 * Sabhi pins ki diode value GR (good result) honi chahiye.
 
-### Hot Testing:
+### Phir hot testing karni chahiye:
 
 * VCC aur DATA pin par 1.8V se 3.0V voltage milna chahiye.
 * Baaki pins par 0.8V se 1.8V voltage milna chahiye.
 * Ye sabhi voltage SIM card detect switch ko tweezer ki madad se baar baar peeche dhakne par hi aayenge.
 
-### Switch Ko Ground Se Disconnect Karke:
+### Switch ko ground se disconnect karna padega tabhi voltage generate hote hain
 
 * Agar switch ko baar baar ground se disconnect karne ke baad bhi SIM card jack ki pins par voltage nahi aa rahe, to SIM card jack se judi interrupt line (jo SIM card detect ke naam se bhi jaani jaati hai) ko check karna chahiye.
-* Yeh line CPU se open hone ki wajah se bhi voltage generate nahi hota. Agar line OK hai, to CPU ko reball karke dekhna chahiye, kyunki agar CPU ki pin dry solder ho gayi hai, to bhi yeh problem aayegi.
-* CPU reball karne ke baad bhi agar SIM card voltage generate nahi ho raha, to power IC change karke dekhna chahiye. Power IC change karne ke baad bhi agar problem solve nahi hua, to phone ko firmware se flash karna padega.
 
-### Firmware Flash Karne Ke Baad:
+### Yeh line CPU se open hone ki wajah se bhi voltage generate nahi hota
 
-* Agar problem aati hai, to eMMC/UFS ko reprogram ya repartition karna hoga.
+* Agar line OK hai, to CPU ko reball karke dekhna chahiye, kyunki agar CPU ki pin dry solder ho gayi hai, to bhi yeh problem aayegi.
 
----
+### CPU reball karne ke baad bhi agar SIM card voltage generate nahi ho raha
 
-**"Baseband unknown hone se bhi 'Insert SIM' ka problem aata hai."**
+* To power IC change karke dekhna chahiye.
+* Power IC change karne ke baad bhi agar problem solve nahi hua, to phone ko firmware se flash karna padega.
 
-### Sabse pehle:
+### Firmware flash karne ke baad bhi agar problem aati hai
 
-* Mobile phone ke About Me section me jakar Baseband version check karein.
+* To eMMC/UFS ko reprogram ya repartition karna hoga.
+
+
+## Baseband unknown hone se bhi "Insert SIM" ka problem aata hai
+
+### Agar aapke paas "Insert SIM" problem aaye, to:
+
+* Sabse pehle mobile phone ke About Me section me jakar Baseband version check karein.
 * Wahan agar Baseband version show ho raha hai, to IMEI number bhi check karein, jo About me ya dial pad me *#06# dial karne par bhi dikhai deta hai.
 
-### Problem Solve Karne Ke Liye:
+### Agar IMEI number aur Baseband version dono OK hain
 
-* Agar IMEI number aur Baseband version dono OK hain, to hardware ki problem hoti hai.
+* To hardware ki problem hoti hai.
 * Agar in dono me se koi ek ya dono problem hai, to software ya hardware dono me hi problem ho sakti hai.
-* Hardware ko chhedne se pehle software se problem solve karne ki koshish karni chahiye. Agar software se solve nahi hota, to hardware se Baseband ko theek karna padega.
 
-### Problem Ke Karan:
+### Hardware ko chhedne se pehle software se problem solve karne ki koshish karni chahiye
+
+* Agar software se solve nahi hota, to hardware se Baseband ko theek karna padega.
+
+### Jab Baseband version OK ho jayega
+
+* Tab "Insert SIM" ka problem solve ho jayega.
+
+
+## Baseband Unknown ki problem hone ke karan:
 
 * SDR IC ka dry solder hona ya uska voltage miss hona
 * CPU ka dry solder hona
