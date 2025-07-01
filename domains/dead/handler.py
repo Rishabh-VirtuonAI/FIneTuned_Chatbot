@@ -19,7 +19,7 @@ vectorstore = FAISS.load_local("domains/dead/faiss_index",
              allow_dangerous_deserialization=True)
 retriever = vectorstore.as_retriever(search_type="similarity",search_kwargs={"k": 6})
 
-llm = Ollama(model="llama3.1:8b",
+llm = Ollama(model="llama3.1:8b-instruct-q4_K_M",
               temperature=1,
                 top_p=0.7,
                 num_ctx=4096,
@@ -47,7 +47,7 @@ qa_chain = RetrievalQA.from_chain_type(
     chain_type_kwargs={"prompt": prompt}
 )
 
-async def chat_with_user(user_query, chat_history, username):
+def chat_with_user(user_query, chat_history, username):
     docs = retriever.get_relevant_documents(user_query)
     context = "\n".join([doc.page_content for doc in docs])
     formatted_history = "\n".join(f"User: {m['user_message']}\nBot: {m['bot_response']}" for m in chat_history)

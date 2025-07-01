@@ -19,12 +19,18 @@ from utils.vector_builder import build_faiss_index
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic.generics import GenericModel
 from typing import List , Optional,Generic, TypeVar
+from concurrent.futures import ThreadPoolExecutor
+import asyncio
+
 
 
 
 app = FastAPI(root_path="/chatbot_llm")
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+# Thread pool for concurrency (CPU-safe)
+executor = ThreadPoolExecutor(max_workers=2)
 
 # CORS Configuration
 origins = [
@@ -107,11 +113,17 @@ def load_category_handler(category: str):
           """)
 async def chat(category: str, request: ChatRequest):
     handler = load_category_handler(category)
+    loop = asyncio.get_event_loop()
+    response =  await loop.run_in_executor(
+        executor,
+        lambda: handler.chat_with_user(request.user_query, request.chat_history, request.username)
+    )
     return APIResponse(
         success= True,
         message=f'Response from the category {category}',
-        data = await handler.chat_with_user(request.user_query, request.chat_history,request.username)
+        data = response
     )
+# data = await handler.chat_with_user(request.user_query, request.chat_history,request.username)
 
 
 
